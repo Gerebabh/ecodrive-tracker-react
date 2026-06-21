@@ -1,5 +1,8 @@
 {
     "veiculos": [
+        {
+            "modelo": "I30"
+        }
     ],
     "$schema": "./node_modules/json-server/schema.json"
 }
