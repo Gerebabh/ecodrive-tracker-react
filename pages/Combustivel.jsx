@@ -8,7 +8,7 @@ function Combustivel() {
         Tipos de combustivel
       </h1>
       <p className="text-[#334155]">
-        Esta pagina exibira os combustiveis utilizados nos calculos.
+        Esta pagina exibira os combustíveis utilizados nos calculos.
       </p>
     </section>
   )
