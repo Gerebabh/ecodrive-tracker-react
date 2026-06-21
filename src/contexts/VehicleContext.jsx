@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import { criar, listar } from '../services/vehicleService'
+import { criar, listar, remover } from '../services/vehicleService'
 
 const VehicleContext = createContext()
 
@@ -32,6 +32,13 @@ function VehicleProvider({ children }) {
     return veiculoCriado
   }
 
+  async function excluirVeiculo(id) {
+    await remover(id)
+    setVeiculos((veiculosAtuais) =>
+      veiculosAtuais.filter((veiculo) => veiculo.id !== id),
+    )
+  }
+
   return (
     <VehicleContext.Provider
       value={{
@@ -40,6 +47,7 @@ function VehicleProvider({ children }) {
         loading,
         error,
         cadastrarVeiculo,
+        excluirVeiculo,
       }}
     >
       {children}
