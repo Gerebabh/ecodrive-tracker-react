@@ -12,6 +12,9 @@ services:
   json-server:
     image: node:22
     working_dir: /app
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "500"
     volumes:
       - .:/app
       - /app/node_modules
