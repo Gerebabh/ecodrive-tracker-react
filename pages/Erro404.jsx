@@ -2,8 +2,8 @@ import { Link } from 'react-router'
 
 function Erro404() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#F1F5F9] px-6 py-12">
-      <section className="w-full max-w-xl text-center">
+    <section className="flex min-h-[55vh] items-center justify-center px-4 py-12">
+      <div className="w-full max-w-xl text-center">
         <h1 className="mb-2 text-7xl font-extrabold text-[#0F172A] sm:text-8xl">
           404
         </h1>
@@ -19,8 +19,8 @@ function Erro404() {
         >
           Voltar para Home
         </Link>
-      </section>
-    </main>
+      </div>
+    </section>
   )
 }
 
