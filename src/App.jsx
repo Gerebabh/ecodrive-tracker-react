@@ -15,6 +15,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="cadastro" element={<Cadastro />} />
+        <Route path="cadastro/:id" element={<Cadastro />} />
         <Route path="veiculos" element={<Veiculos />} />
         <Route path="combustivel" element={<Combustivel />} />
         <Route path="comparador" element={<Comparador />} />

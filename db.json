@@ -36,7 +36,7 @@
       "anoModelo": 2014,
       "tipo": "combustao",
       "combustivel": "gasolina",
-      "consumoMedio": 7,
+      "consumoMedio": 6.5,
       "unidadeConsumo": "km/l",
       "ipva": 8129.52,
       "licenciamento": 106.26,

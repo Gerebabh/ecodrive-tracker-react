@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 function formatCurrency(value) {
   return Number(value).toLocaleString('pt-BR', {
     style: 'currency',
@@ -59,6 +61,12 @@ function VehicleTable({ veiculos, deletingId, onDelete }) {
                 {formatCurrency(veiculo.licenciamento)}
               </td>
               <td className="whitespace-nowrap px-4 py-3 text-right">
+                <Link
+                  to={`/cadastro/${veiculo.id}`}
+                  className="mr-4 font-semibold text-[#1E293B] hover:underline"
+                >
+                  Editar
+                </Link>
                 <button
                   type="button"
                   disabled={deletingId === veiculo.id}
