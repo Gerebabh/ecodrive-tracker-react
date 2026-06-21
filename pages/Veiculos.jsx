@@ -1,9 +1,34 @@
+import { useState } from 'react'
 import { Link } from 'react-router'
 import VehicleTable from '../components/VehicleTable'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
 
 function Veiculos() {
-  const { veiculos, loading, error } = useVehicleContext()
+  const [deletingId, setDeletingId] = useState('')
+  const [deleteError, setDeleteError] = useState('')
+  const { veiculos, loading, error, excluirVeiculo } = useVehicleContext()
+
+  async function handleDelete(veiculo) {
+    const confirmed = window.confirm(
+      `Deseja realmente excluir ${veiculo.marca} ${veiculo.modelo}?`,
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setDeleteError('')
+      setDeletingId(veiculo.id)
+      await excluirVeiculo(veiculo.id)
+    } catch {
+      setDeleteError(
+        'Nao foi possivel excluir o veiculo. Verifique a API e tente novamente.',
+      )
+    } finally {
+      setDeletingId('')
+    }
+  }
 
   return (
     <section className="min-w-0 rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
@@ -43,6 +68,15 @@ function Veiculos() {
         </p>
       )}
 
+      {deleteError && (
+        <p
+          role="alert"
+          className="mb-4 rounded-md bg-[#FEE2E2] px-4 py-3 text-[#DC2626]"
+        >
+          {deleteError}
+        </p>
+      )}
+
       {!loading && !error && veiculos.length === 0 && (
         <div className="rounded-md border border-dashed border-[#CBD5E1] px-4 py-8 text-center">
           <p className="font-semibold text-[#0F172A]">
@@ -55,7 +89,11 @@ function Veiculos() {
       )}
 
       {!loading && !error && veiculos.length > 0 && (
-        <VehicleTable veiculos={veiculos} />
+        <VehicleTable
+          veiculos={veiculos}
+          deletingId={deletingId}
+          onDelete={handleDelete}
+        />
       )}
     </section>
   )

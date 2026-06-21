@@ -16,7 +16,7 @@ function formatFuel(value) {
   return fuelNames[value] ?? value
 }
 
-function VehicleTable({ veiculos }) {
+function VehicleTable({ veiculos, deletingId, onDelete }) {
   return (
     <div className="w-full max-w-full overflow-x-auto rounded-md border border-[#E2E8F0]">
       <table className="min-w-[900px] w-full border-collapse text-left text-sm">
@@ -29,6 +29,7 @@ function VehicleTable({ veiculos }) {
             <th className="px-4 py-3 font-semibold">Consumo</th>
             <th className="px-4 py-3 font-semibold">IPVA</th>
             <th className="px-4 py-3 font-semibold">Licenciamento</th>
+            <th className="px-4 py-3 text-right font-semibold">Acoes</th>
           </tr>
         </thead>
 
@@ -56,6 +57,16 @@ function VehicleTable({ veiculos }) {
               </td>
               <td className="whitespace-nowrap px-4 py-3">
                 {formatCurrency(veiculo.licenciamento)}
+              </td>
+              <td className="whitespace-nowrap px-4 py-3 text-right">
+                <button
+                  type="button"
+                  disabled={deletingId === veiculo.id}
+                  onClick={() => onDelete(veiculo)}
+                  className="font-semibold text-[#DC2626] hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {deletingId === veiculo.id ? 'Excluindo...' : 'Excluir'}
+                </button>
               </td>
             </tr>
           ))}
