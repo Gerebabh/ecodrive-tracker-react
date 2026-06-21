@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
 import { useVehicleContext } from '../hooks/useVehicleContext'
@@ -18,11 +18,12 @@ function FieldError({ error, id }) {
   )
 }
 
-function VehicleForm() {
+function VehicleForm({ veiculo }) {
   const [submitError, setSubmitError] = useState('')
   const currentYear = new Date().getFullYear()
   const navigate = useNavigate()
-  const { cadastrarVeiculo } = useVehicleContext()
+  const { cadastrarVeiculo, editarVeiculo } = useVehicleContext()
+  const isEditing = Boolean(veiculo)
 
   const {
     handleSubmit,
@@ -45,15 +46,25 @@ function VehicleForm() {
     },
   })
 
+  useEffect(() => {
+    if (veiculo) {
+      reset(veiculo)
+    }
+  }, [reset, veiculo])
+
   async function onSubmit(dados) {
     try {
       setSubmitError('')
-      await cadastrarVeiculo(dados)
+      if (isEditing) {
+        await editarVeiculo(veiculo.id, dados)
+      } else {
+        await cadastrarVeiculo(dados)
+      }
       reset()
       navigate('/veiculos')
     } catch {
       setSubmitError(
-        'Nao foi possivel cadastrar o veiculo. Verifique a API e tente novamente.',
+        `Nao foi possivel ${isEditing ? 'atualizar' : 'cadastrar'} o veiculo. Verifique a API e tente novamente.`,
       )
     }
   }
@@ -382,7 +393,11 @@ function VehicleForm() {
           disabled={isSubmitting}
           className="rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? 'Salvando...' : 'Salvar'}
+          {isSubmitting
+            ? 'Salvando...'
+            : isEditing
+              ? 'Atualizar'
+              : 'Salvar'}
         </button>
         <button
           type="button"

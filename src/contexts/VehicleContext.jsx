@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import { criar, listar, remover } from '../services/vehicleService'
+import { atualizar, criar, listar, remover } from '../services/vehicleService'
 
 const VehicleContext = createContext()
 
@@ -39,6 +39,16 @@ function VehicleProvider({ children }) {
     )
   }
 
+  async function editarVeiculo(id, veiculo) {
+    const veiculoAtualizado = await atualizar(id, { ...veiculo, id })
+    setVeiculos((veiculosAtuais) =>
+      veiculosAtuais.map((veiculoAtual) =>
+        veiculoAtual.id === id ? veiculoAtualizado : veiculoAtual,
+      ),
+    )
+    return veiculoAtualizado
+  }
+
   return (
     <VehicleContext.Provider
       value={{
@@ -48,6 +58,7 @@ function VehicleProvider({ children }) {
         error,
         cadastrarVeiculo,
         excluirVeiculo,
+        editarVeiculo,
       }}
     >
       {children}
