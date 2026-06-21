@@ -26,7 +26,7 @@ function Navbar() {
         </li>
         <li>
           <NavLink to="/combustivel" className={linkClass}>
-            Combustiveis
+            Combustíveis
           </NavLink>
         </li>
         <li>
