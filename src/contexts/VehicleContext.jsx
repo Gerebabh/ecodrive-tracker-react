@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import { listar } from '../services/vehicleService'
+import { criar, listar } from '../services/vehicleService'
 
 const VehicleContext = createContext()
 
@@ -26,9 +26,21 @@ function VehicleProvider({ children }) {
     carregarVeiculos()
   }, [])
 
+  async function cadastrarVeiculo(veiculo) {
+    const veiculoCriado = await criar(veiculo)
+    setVeiculos((veiculosAtuais) => [...veiculosAtuais, veiculoCriado])
+    return veiculoCriado
+  }
+
   return (
     <VehicleContext.Provider
-      value={{ veiculos, setVeiculos, loading, error }}
+      value={{
+        veiculos,
+        setVeiculos,
+        loading,
+        error,
+        cadastrarVeiculo,
+      }}
     >
       {children}
     </VehicleContext.Provider>

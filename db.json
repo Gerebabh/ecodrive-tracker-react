@@ -27,6 +27,20 @@
       "unidadeConsumo": "kWh/100km",
       "ipva": 0,
       "licenciamento": 106.26
+    },
+    {
+      "marca": "Chevrolet",
+      "modelo": "Camaro",
+      "placa": "HJM-2A23",
+      "anoFabricacao": 2014,
+      "anoModelo": 2014,
+      "tipo": "combustao",
+      "combustivel": "gasolina",
+      "consumoMedio": 7,
+      "unidadeConsumo": "km/l",
+      "ipva": 8129.52,
+      "licenciamento": 106.26,
+      "id": "Op_JugNLPdc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

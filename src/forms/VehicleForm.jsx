@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useVehicleContext } from '../hooks/useVehicleContext'
 
 const inputClass =
   'mt-1 w-full rounded-md border border-[#CBD5E1] bg-white px-3 py-2 text-[#0F172A] outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20'
@@ -18,14 +19,16 @@ function FieldError({ error, id }) {
 }
 
 function VehicleForm() {
-  const [feedback, setFeedback] = useState('')
+  const [submitError, setSubmitError] = useState('')
   const currentYear = new Date().getFullYear()
+  const navigate = useNavigate()
+  const { cadastrarVeiculo } = useVehicleContext()
 
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       marca: '',
@@ -42,18 +45,26 @@ function VehicleForm() {
     },
   })
 
-  function onSubmit(dados) {
-    console.log('Dados do veiculo:', dados)
-    setFeedback('Formulário preenchido. Os dados estao prontos para o cadastro.')
+  async function onSubmit(dados) {
+    try {
+      setSubmitError('')
+      await cadastrarVeiculo(dados)
+      reset()
+      navigate('/veiculos')
+    } catch {
+      setSubmitError(
+        'Nao foi possivel cadastrar o veiculo. Verifique a API e tente novamente.',
+      )
+    }
   }
 
   function onInvalid() {
-    setFeedback('')
+    setSubmitError('')
   }
 
   function limparFormulario() {
     reset()
-    setFeedback('')
+    setSubmitError('')
   }
 
   return (
@@ -356,18 +367,22 @@ function VehicleForm() {
         </div>
       </div>
 
-      {feedback && (
-        <p className="rounded-md bg-[#DCFCE7] px-4 py-3 text-sm font-medium text-[#166534]">
-          {feedback}
+      {submitError && (
+        <p
+          role="alert"
+          className="rounded-md bg-[#FEE2E2] px-4 py-3 text-sm font-medium text-[#DC2626]"
+        >
+          {submitError}
         </p>
       )}
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
-          className="rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A]"
+          disabled={isSubmitting}
+          className="rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Salvar
+          {isSubmitting ? 'Salvando...' : 'Salvar'}
         </button>
         <button
           type="button"
