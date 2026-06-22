@@ -17,7 +17,7 @@ function VehicleProvider({ children }) {
         const dados = await listar()
         setVeiculos(dados)
       } catch {
-        setError('Nao foi possivel carregar os veiculos.')
+        setError('Não foi possível carregar os veículos.')
       } finally {
         setLoading(false)
       }

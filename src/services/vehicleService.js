@@ -2,7 +2,7 @@ const url = 'http://localhost:3000/veiculos'
 
 async function validarResposta(response) {
   if (!response.ok) {
-    throw new Error(`Erro na requisicao: ${response.status}`)
+    throw new Error(`Erro na requisição: ${response.status}`)
   }
 
   return response.json()
@@ -13,7 +13,7 @@ async function listar() {
     const response = await fetch(url)
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao listar veiculos:', error.message)
+    console.error('Erro ao listar veículos:', error.message)
     throw error
   }
 }
@@ -30,7 +30,7 @@ async function criar(veiculo) {
 
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao criar veiculo:', error.message)
+    console.error('Erro ao criar veículo:', error.message)
     throw error
   }
 }
@@ -47,7 +47,7 @@ async function atualizar(id, veiculo) {
 
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao atualizar veiculo:', error.message)
+    console.error('Erro ao atualizar veículo:', error.message)
     throw error
   }
 }
@@ -60,7 +60,7 @@ async function remover(id) {
 
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao remover veiculo:', error.message)
+    console.error('Erro ao remover veículo:', error.message)
     throw error
   }
 }

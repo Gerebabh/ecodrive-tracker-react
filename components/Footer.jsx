@@ -7,7 +7,7 @@ function Footer() {
         &copy; {currentYear} EcoDrive Tracker
       </p>
       <p className="mt-1">
-        Projeto academico - Construcao de Frontend - IESB
+        Projeto acadêmico - Construção de Frontend - IESB
       </p>
     </footer>
   )

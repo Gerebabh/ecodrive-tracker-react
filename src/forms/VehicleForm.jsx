@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
+import { Button, ButtonLink } from '../../components/ui/Button'
+import StatusMessage from '../../components/ui/StatusMessage'
 import { useVehicleContext } from '../hooks/useVehicleContext'
 
 const inputClass =
@@ -64,7 +66,7 @@ function VehicleForm({ veiculo }) {
       navigate('/veiculos')
     } catch {
       setSubmitError(
-        `Nao foi possivel ${isEditing ? 'atualizar' : 'cadastrar'} o veiculo. Verifique a API e tente novamente.`,
+        `Não foi possível ${isEditing ? 'atualizar' : 'cadastrar'} o veículo. Verifique a API e tente novamente.`,
       )
     }
   }
@@ -259,7 +261,7 @@ function VehicleForm({ veiculo }) {
             <option value="gasolina">Gasolina</option>
             <option value="etanol">Etanol</option>
             <option value="diesel">Diesel</option>
-            <option value="energia_eletrica">Energia eletrica</option>
+            <option value="energia_eletrica">Energia elétrica</option>
           </select>
           <FieldError error={errors.combustivel} id="combustivel-error" />
         </div>
@@ -282,7 +284,7 @@ function VehicleForm({ veiculo }) {
               errors.consumoMedio ? 'consumoMedio-error' : undefined
             }
             {...register('consumoMedio', {
-              required: 'O consumo medio é obrigatório.',
+              required: 'O consumo médio é obrigatório.',
               valueAsNumber: true,
               min: {
                 value: 0.01,
@@ -379,39 +381,35 @@ function VehicleForm({ veiculo }) {
       </div>
 
       {submitError && (
-        <p
-          role="alert"
-          className="rounded-md bg-[#FEE2E2] px-4 py-3 text-sm font-medium text-[#DC2626]"
-        >
+        <StatusMessage type="error">
           {submitError}
-        </p>
+        </StatusMessage>
       )}
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting
             ? 'Salvando...'
             : isEditing
               ? 'Atualizar'
               : 'Salvar'}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={limparFormulario}
-          className="rounded-md border border-[#CBD5E1] px-5 py-3 font-semibold text-[#334155] hover:bg-[#F1F5F9]"
+          variant="secondary"
         >
           Limpar
-        </button>
-        <Link
+        </Button>
+        <ButtonLink
           to="/veiculos"
-          className="rounded-md border border-[#CBD5E1] px-5 py-3 text-center font-semibold text-[#334155] hover:bg-[#F1F5F9]"
+          variant="secondary"
         >
           Cancelar
-        </Link>
+        </ButtonLink>
       </div>
     </form>
   )

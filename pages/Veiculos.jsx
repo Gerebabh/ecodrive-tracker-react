@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
 import VehicleTable from '../components/VehicleTable'
+import { ButtonLink } from '../components/ui/Button'
+import PageHeader from '../components/ui/PageHeader'
+import StatusMessage from '../components/ui/StatusMessage'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
 
 function Veiculos() {
@@ -23,7 +25,7 @@ function Veiculos() {
       await excluirVeiculo(veiculo.id)
     } catch {
       setDeleteError(
-        'Nao foi possivel excluir o veiculo. Verifique a API e tente novamente.',
+        'Não foi possível excluir o veículo. Verifique a API e tente novamente.',
       )
     } finally {
       setDeletingId('')
@@ -34,47 +36,30 @@ function Veiculos() {
     <section className="min-w-0 rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 text-sm font-bold uppercase text-[#22C55E]">
-            Veículos
-          </p>
-          <h1 className="text-3xl font-bold text-[#0F172A]">
-            Veículos cadastrados
-          </h1>
+          <PageHeader eyebrow="Veículos" title="Veículos cadastrados" />
         </div>
 
-        <Link
-          to="/cadastro"
-          className="inline-flex items-center justify-center rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A]"
-        >
+        <ButtonLink to="/cadastro">
           Novo veículo
-        </Link>
+        </ButtonLink>
       </div>
 
       {loading && (
-        <p
-          role="status"
-          className="rounded-md bg-[#F1F5F9] px-4 py-6 text-center text-[#334155]"
-        >
+        <StatusMessage className="py-6 text-center">
           Carregando veículos...
-        </p>
+        </StatusMessage>
       )}
 
       {!loading && error && (
-        <p
-          role="alert"
-          className="rounded-md bg-[#FEE2E2] px-4 py-6 text-center text-[#DC2626]"
-        >
+        <StatusMessage type="error" className="py-6 text-center">
           {error}
-        </p>
+        </StatusMessage>
       )}
 
       {deleteError && (
-        <p
-          role="alert"
-          className="mb-4 rounded-md bg-[#FEE2E2] px-4 py-3 text-[#DC2626]"
-        >
+        <StatusMessage type="error" className="mb-4">
           {deleteError}
-        </p>
+        </StatusMessage>
       )}
 
       {!loading && !error && veiculos.length === 0 && (
