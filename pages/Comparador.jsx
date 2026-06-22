@@ -1,14 +1,8 @@
 import { useState } from 'react'
+import ComparisonResult from '../components/ComparisonResult'
 import { useFuelContext } from '../src/hooks/useFuelContext'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
 import { calcularCustoAnual } from '../src/services/costCalculator'
-
-function formatCurrency(value) {
-  return Number(value).toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  })
-}
 
 function Comparador() {
   const [veiculoAId, setVeiculoAId] = useState('')
@@ -194,24 +188,26 @@ function Comparador() {
             >
               Resultado
             </h2>
-            <div className="rounded-lg border border-slate-200 bg-[#F8FAFC] p-6 text-center text-[#334155]">
+            <div className="border border-slate-200 bg-[#F8FAFC] p-4 sm:p-6">
               {comparacao?.error ? (
-                <p role="alert" className="font-semibold text-[#DC2626]">
+                <p
+                  role="alert"
+                  className="text-center font-semibold text-[#DC2626]"
+                >
                   {comparacao.error}
                 </p>
               ) : comparacao ? (
-                <div role="status" className="space-y-2">
-                  <p>
-                    {veiculoA.marca} {veiculoA.modelo}:{' '}
-                    <strong>{formatCurrency(comparacao.resultadoA.total)}</strong>
-                  </p>
-                  <p>
-                    {veiculoB.marca} {veiculoB.modelo}:{' '}
-                    <strong>{formatCurrency(comparacao.resultadoB.total)}</strong>
-                  </p>
-                </div>
+                <ComparisonResult
+                  veiculoA={veiculoA}
+                  veiculoB={veiculoB}
+                  resultadoA={comparacao.resultadoA}
+                  resultadoB={comparacao.resultadoB}
+                  quilometragemAnual={quilometragemAnual}
+                />
               ) : (
-                'Selecione dois veículos para visualizar a comparação.'
+                <p className="py-4 text-center text-[#334155]">
+                  Selecione dois veículos para visualizar a comparação.
+                </p>
               )}
             </div>
           </section>
