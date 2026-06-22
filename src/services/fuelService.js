@@ -1,4 +1,6 @@
-const url = 'http://localhost:3000/combustiveis'
+import { apiUrl } from './apiConfig'
+
+const url = `${apiUrl}/combustiveis`
 
 async function validarResposta(response) {
   if (!response.ok) {

@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: ecodrive-frontend
+    restart: unless-stopped
+    cpus: 0.25
+    mem_limit: 128m
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8085:80"
+    networks:
+      - ecodrive-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: ecodrive-api
+    restart: unless-stopped
+    cpus: 0.50
+    mem_limit: 256m
+    volumes:
+      - ecodrive-data:/data
+    networks:
+      - ecodrive-network
+
+networks:
+  ecodrive-network:
+    name: ecodrive-network
+
+volumes:
+  ecodrive-data:
+    name: ecodrive-data

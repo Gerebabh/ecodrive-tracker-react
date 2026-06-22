@@ -1,4 +1,6 @@
-const url = 'http://localhost:3000/veiculos'
+import { apiUrl } from './apiConfig'
+
+const url = `${apiUrl}/veiculos`
 
 async function validarResposta(response) {
   if (!response.ok) {
