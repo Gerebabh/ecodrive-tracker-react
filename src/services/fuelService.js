@@ -2,7 +2,7 @@ const url = 'http://localhost:3000/combustiveis'
 
 async function validarResposta(response) {
   if (!response.ok) {
-    throw new Error(`Erro na requisicao: ${response.status}`)
+    throw new Error(`Erro na requisição: ${response.status}`)
   }
 
   return response.json()
@@ -13,7 +13,7 @@ async function listar() {
     const response = await fetch(url)
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao listar combustiveis:', error.message)
+    console.error('Erro ao listar combustíveis:', error.message)
     throw error
   }
 }
@@ -30,7 +30,7 @@ async function atualizar(id, combustivel) {
 
     return await validarResposta(response)
   } catch (error) {
-    console.error('Erro ao atualizar combustivel:', error.message)
+    console.error('Erro ao atualizar combustível:', error.message)
     throw error
   }
 }

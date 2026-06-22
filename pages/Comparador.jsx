@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import ComparisonResult from '../components/ComparisonResult'
+import { Button } from '../components/ui/Button'
+import PageHeader from '../components/ui/PageHeader'
+import StatusMessage from '../components/ui/StatusMessage'
 import { useFuelContext } from '../src/hooks/useFuelContext'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
 import { calcularCustoAnual } from '../src/services/costCalculator'
@@ -68,23 +71,20 @@ function Comparador() {
 
   return (
     <section className="rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
-      <p className="mb-2 text-sm font-bold uppercase text-[#22C55E]">
-        Comparador
-      </p>
-      <h1 className="mb-6 text-3xl font-bold text-[#0F172A]">
-        Comparador de Custos
-      </h1>
+      <PageHeader
+        eyebrow="Comparador"
+        title="Comparador de Custos"
+        className="mb-6"
+      />
 
       {loading && (
-        <p role="status" className="text-[#334155]">
+        <StatusMessage>
           Carregando dados do comparador...
-        </p>
+        </StatusMessage>
       )}
 
       {error && (
-        <p role="alert" className="font-semibold text-[#DC2626]">
-          {error}
-        </p>
+        <StatusMessage type="error">{error}</StatusMessage>
       )}
 
       {!loading && !error && (
@@ -168,17 +168,17 @@ function Comparador() {
               />
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={
                 !veiculoAId ||
                 !veiculoBId ||
                 Number(quilometragemAnual) <= 0
               }
-              className="h-12 rounded-md bg-[#22C55E] px-6 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-12 px-6"
             >
               Comparar
-            </button>
+            </Button>
           </form>
 
           <section className="mt-8" aria-labelledby="resultado-comparacao">
@@ -190,12 +190,9 @@ function Comparador() {
             </h2>
             <div className="border border-slate-200 bg-[#F8FAFC] p-4 sm:p-6">
               {comparacao?.error ? (
-                <p
-                  role="alert"
-                  className="text-center font-semibold text-[#DC2626]"
-                >
+                <StatusMessage type="error" className="text-center">
                   {comparacao.error}
-                </p>
+                </StatusMessage>
               ) : comparacao ? (
                 <ComparisonResult
                   veiculoA={veiculoA}

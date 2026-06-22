@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Button } from '../components/ui/Button'
+import PageHeader from '../components/ui/PageHeader'
+import StatusMessage from '../components/ui/StatusMessage'
 import { useFuelContext } from '../src/hooks/useFuelContext'
 
 function Combustivel() {
@@ -54,26 +57,21 @@ function Combustivel() {
 
   return (
     <section className="rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
-      <p className="mb-2 text-sm font-bold uppercase text-[#22C55E]">
-        Combustível
-      </p>
-      <h1 className="mb-4 text-3xl font-bold text-[#0F172A]">
-        Configuração de Combustíveis
-      </h1>
-      <p className="mb-6 text-[#334155]">
-        Defina os valores utilizados nos cálculos de consumo.
-      </p>
+      <PageHeader
+        eyebrow="Combustível"
+        title="Configuração de Combustíveis"
+        description="Defina os valores utilizados nos cálculos de consumo."
+        className="mb-6"
+      />
 
       {loading && (
-        <p role="status" className="text-[#334155]">
+        <StatusMessage>
           Carregando combustíveis...
-        </p>
+        </StatusMessage>
       )}
 
       {loadError && (
-        <p role="alert" className="font-semibold text-[#DC2626]">
-          {loadError}
-        </p>
+        <StatusMessage type="error">{loadError}</StatusMessage>
       )}
 
       {!loading && !loadError && (
@@ -131,24 +129,19 @@ function Combustivel() {
           ))}
 
           {submitError && (
-            <p role="alert" className="font-semibold text-[#DC2626]">
-              {submitError}
-            </p>
+            <StatusMessage type="error">{submitError}</StatusMessage>
           )}
 
           {successMessage && (
-            <p role="status" className="font-semibold text-[#16A34A]">
-              {successMessage}
-            </p>
+            <StatusMessage type="success">{successMessage}</StatusMessage>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-[#22C55E] px-5 py-3 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? 'Salvando...' : 'Salvar alterações'}
-          </button>
+          </Button>
         </form>
       )}
     </section>

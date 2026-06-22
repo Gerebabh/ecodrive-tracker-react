@@ -12,10 +12,19 @@ function formatFuel(value) {
     gasolina: 'Gasolina',
     etanol: 'Etanol',
     diesel: 'Diesel',
-    energia_eletrica: 'Energia eletrica',
+    energia_eletrica: 'Energia elétrica',
   }
 
   return fuelNames[value] ?? value
+}
+
+function formatType(value) {
+  const typeNames = {
+    combustao: 'Combustão',
+    eletrico: 'Elétrico',
+  }
+
+  return typeNames[value] ?? value
 }
 
 function VehicleTable({ veiculos, deletingId, onDelete }) {
@@ -24,14 +33,14 @@ function VehicleTable({ veiculos, deletingId, onDelete }) {
       <table className="min-w-[900px] w-full border-collapse text-left text-sm">
         <thead className="bg-[#F1F5F9] text-[#0F172A]">
           <tr>
-            <th className="px-4 py-3 font-semibold">Veiculo</th>
+            <th className="px-4 py-3 font-semibold">Veículo</th>
             <th className="px-4 py-3 font-semibold">Placa</th>
             <th className="px-4 py-3 font-semibold">Ano</th>
-            <th className="px-4 py-3 font-semibold">Combustivel</th>
+            <th className="px-4 py-3 font-semibold">Combustível</th>
             <th className="px-4 py-3 font-semibold">Consumo</th>
             <th className="px-4 py-3 font-semibold">IPVA</th>
             <th className="px-4 py-3 font-semibold">Licenciamento</th>
-            <th className="px-4 py-3 text-right font-semibold">Acoes</th>
+            <th className="px-4 py-3 text-right font-semibold">Ações</th>
           </tr>
         </thead>
 
@@ -42,7 +51,7 @@ function VehicleTable({ veiculos, deletingId, onDelete }) {
                 <strong className="block text-[#0F172A]">
                   {veiculo.marca} {veiculo.modelo}
                 </strong>
-                <span className="text-xs capitalize">{veiculo.tipo}</span>
+                <span className="text-xs">{formatType(veiculo.tipo)}</span>
               </td>
               <td className="whitespace-nowrap px-4 py-3">{veiculo.placa}</td>
               <td className="whitespace-nowrap px-4 py-3">

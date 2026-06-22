@@ -1,21 +1,8 @@
-import { Link } from 'react-router'
+import DashboardStat from '../components/DashboardStat'
+import { ButtonLink } from '../components/ui/Button'
+import StatusMessage from '../components/ui/StatusMessage'
 import { useFuelContext } from '../src/hooks/useFuelContext'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
-
-function StatItem({ value, label, highlight = false }) {
-  return (
-    <div className="border border-slate-200 bg-[#F8FAFC] p-5">
-      <p
-        className={`text-2xl font-bold ${
-          highlight ? 'text-[#16A34A]' : 'text-[#0F172A]'
-        }`}
-      >
-        {value}
-      </p>
-      <p className="mt-1 text-sm text-[#334155]">{label}</p>
-    </div>
-  )
-}
 
 function Home() {
   const {
@@ -34,8 +21,8 @@ function Home() {
   const eletricos = veiculos.filter(
     (veiculo) => veiculo.tipo === 'eletrico',
   ).length
-  const perfisConsumo = new Set(
-    veiculos.map((veiculo) => veiculo.unidadeConsumo),
+  const tiposMotorizacao = new Set(
+    veiculos.map((veiculo) => veiculo.tipo),
   ).size
 
   return (
@@ -48,55 +35,54 @@ function Home() {
           Controle Inteligente de Custos Veiculares
         </h1>
         <p className="mt-3 max-w-2xl text-base text-[#334155] sm:text-lg">
-          Compare veículos elétricos e a combustão usando seus custos reais de
+          Compare veículos elétricos e de combustão usando seus custos reais de
           energia, combustível e impostos.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <Link
-            to="/cadastro"
-            className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#22C55E] px-5 font-semibold text-[#0F172A] hover:bg-[#16A34A]"
-          >
+          <ButtonLink to="/cadastro">
             Cadastrar veículo
-          </Link>
-          <Link
-            to="/comparador"
-            className="inline-flex min-h-12 items-center justify-center rounded-md border border-slate-300 px-5 font-semibold text-[#334155] hover:bg-[#F1F5F9]"
-          >
+          </ButtonLink>
+          <ButtonLink to="/comparador" variant="secondary">
             Comparar custos
-          </Link>
+          </ButtonLink>
         </div>
       </div>
 
       <div className="px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         {loading && (
-          <p role="status" className="text-[#334155]">
+          <StatusMessage>
             Carregando resumo...
-          </p>
+          </StatusMessage>
         )}
 
         {error && (
-          <p role="alert" className="font-semibold text-[#DC2626]">
-            {error}
-          </p>
+          <StatusMessage type="error">{error}</StatusMessage>
         )}
 
         {!loading && !error && (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <StatItem
+            <DashboardStat
               value={veiculos.length}
               label="Veículos cadastrados"
+              icon="vehicle"
             />
-            <StatItem
+            <DashboardStat
               value={eletricos}
               label="Veículos elétricos"
+              icon="energy"
               highlight
             />
-            <StatItem
+            <DashboardStat
               value={combustiveis.length}
               label="Preços monitorados"
+              icon="price"
             />
-            <StatItem value={perfisConsumo} label="Perfis de consumo" />
+            <DashboardStat
+              value={tiposMotorizacao}
+              label="Tipos de motorização"
+              icon="consumption"
+            />
           </div>
         )}
 
