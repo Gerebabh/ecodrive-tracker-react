@@ -101,6 +101,23 @@ O `docker-compose.yml` utiliza volumes para compartilhar os arquivos do projeto
 com os contêineres. Assim, as alterações locais são refletidas durante o
 desenvolvimento.
 
+## Execução em produção
+
+A configuração de produção utiliza Nginx para servir o build do React e
+encaminhar as requisições `/api` para o JSON Server em uma rede Docker
+privada.
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+O frontend fica disponível somente no host em
+`http://127.0.0.1:8085`, permitindo sua publicação segura por meio de um
+proxy reverso.
+
+As instruções completas para DNS, Apache, HTTPS, atualização e backup estão no
+[guia de deploy](docs/DEPLOYMENT.md).
+
 ## Scripts disponíveis
 
 | Script | Descrição |
@@ -117,7 +134,9 @@ desenvolvimento.
 ecodrive-tracker-react/
 ├── components/          # Componentes reutilizáveis da interface
 │   └── ui/              # Botões, cabeçalhos e mensagens genéricas
+├── deploy/apache/       # VirtualHost usado na KVM
 ├── docs/screenshots/    # Capturas usadas nesta documentação
+├── docker/              # Configuração do Nginx de produção
 ├── layouts/             # Estrutura visual compartilhada entre as páginas
 ├── pages/               # Páginas associadas às rotas
 ├── public/              # Arquivos públicos
@@ -130,7 +149,8 @@ ecodrive-tracker-react/
 │   ├── App.jsx          # Configuração das rotas
 │   └── main.jsx         # Inicialização da aplicação
 ├── db.json              # Banco de dados do JSON Server
-└── docker-compose.yml   # Serviços Docker do projeto
+├── docker-compose.yml   # Serviços Docker de desenvolvimento
+└── docker-compose.prod.yml # Serviços Docker de produção
 ```
 
 ## API e endpoints
