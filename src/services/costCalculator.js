@@ -41,13 +41,34 @@ function calcularCustoAnual(veiculo, combustivel, quilometragemAnual) {
 
   const consumoAnual = calcularConsumoAnual(veiculo, quilometragem)
   const custoCombustivel = consumoAnual * precoCombustivel
+  const custos = [
+    {
+      id: 'combustivel',
+      nome:
+        veiculo.tipo === 'eletrico'
+          ? 'Custo de energia'
+          : 'Custo de combustível',
+      valor: custoCombustivel,
+    },
+    {
+      id: 'ipva',
+      nome: 'IPVA',
+      valor: ipva,
+    },
+    {
+      id: 'licenciamento',
+      nome: 'Licenciamento',
+      valor: licenciamento,
+    },
+  ]
 
   return {
     consumoAnual,
     custoCombustivel,
     ipva,
     licenciamento,
-    total: custoCombustivel + ipva + licenciamento,
+    custos,
+    total: custos.reduce((total, custo) => total + custo.valor, 0),
   }
 }
 
