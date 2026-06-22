@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { atualizarTodos, listar } from '../src/services/fuelService'
+import { useFuelContext } from '../src/hooks/useFuelContext'
 
 function Combustivel() {
-  const [combustiveis, setCombustiveis] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [loadError, setLoadError] = useState('')
   const [submitError, setSubmitError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const {
+    combustiveis,
+    editarCombustiveis,
+    error: loadError,
+    loading,
+  } = useFuelContext()
 
   const {
     formState: { errors, isSubmitting },
@@ -17,31 +20,18 @@ function Combustivel() {
   } = useForm()
 
   useEffect(() => {
-    async function carregarCombustiveis() {
-      try {
-        setLoading(true)
-        setLoadError('')
-
-        const dados = await listar()
-        setCombustiveis(dados)
-        reset(
-          dados.reduce(
-            (valores, combustivel) => ({
-              ...valores,
-              [combustivel.id]: combustivel.valor,
-            }),
-            {},
-          ),
-        )
-      } catch {
-        setLoadError('Não foi possível carregar os combustíveis.')
-      } finally {
-        setLoading(false)
-      }
+    if (combustiveis.length > 0) {
+      reset(
+        combustiveis.reduce(
+          (valores, combustivel) => ({
+            ...valores,
+            [combustivel.id]: combustivel.valor,
+          }),
+          {},
+        ),
+      )
     }
-
-    carregarCombustiveis()
-  }, [reset])
+  }, [combustiveis, reset])
 
   async function onSubmit(valores) {
     try {
@@ -53,10 +43,7 @@ function Combustivel() {
         valor: Number(valores[combustivel.id]),
       }))
 
-      const combustiveisAtualizados =
-        await atualizarTodos(dadosAtualizados)
-
-      setCombustiveis(combustiveisAtualizados)
+      await editarCombustiveis(dadosAtualizados)
       setSuccessMessage('Valores atualizados com sucesso.')
     } catch {
       setSubmitError(
