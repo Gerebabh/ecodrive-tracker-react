@@ -1,0 +1,77 @@
+{
+  "veiculos": [
+    {
+      "id": "1",
+      "marca": "Hyundai",
+      "modelo": "i30",
+      "placa": "HNZ-8632",
+      "anoFabricacao": 2010,
+      "anoModelo": 2010,
+      "tipo": "combustao",
+      "combustivel": "gasolina",
+      "consumoMedio": 9,
+      "unidadeConsumo": "km/l",
+      "ipva": 1794,
+      "licenciamento": 106.26
+    },
+    {
+      "id": "2",
+      "marca": "Geely",
+      "modelo": "EX2 Max",
+      "placa": "UJL-7C66",
+      "anoFabricacao": 2025,
+      "anoModelo": 2025,
+      "tipo": "eletrico",
+      "combustivel": "energia_eletrica",
+      "consumoMedio": 10,
+      "unidadeConsumo": "kWh/100km",
+      "ipva": 0,
+      "licenciamento": 106.26
+    },
+    {
+      "marca": "Chevrolet",
+      "modelo": "Camaro",
+      "placa": "HJM-2A23",
+      "anoFabricacao": 2014,
+      "anoModelo": 2014,
+      "tipo": "combustao",
+      "combustivel": "gasolina",
+      "consumoMedio": 6.5,
+      "unidadeConsumo": "km/l",
+      "ipva": 8129.52,
+      "licenciamento": 106.26,
+      "id": "3"
+    }
+  ],
+  "combustiveis": [
+    {
+      "id": "1",
+      "nome": "Gasolina",
+      "tipo": "gasolina",
+      "valor": 6.59,
+      "unidade": "R$/l"
+    },
+    {
+      "id": "2",
+      "nome": "Etanol",
+      "tipo": "etanol",
+      "valor": 4.39,
+      "unidade": "R$/l"
+    },
+    {
+      "id": "3",
+      "nome": "Diesel",
+      "tipo": "diesel",
+      "valor": 6.12,
+      "unidade": "R$/l"
+    },
+    {
+      "id": "4",
+      "nome": "Energia Elétrica",
+      "tipo": "energia_eletrica",
+      "valor": 1,
+      "unidade": "R$/kWh"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
