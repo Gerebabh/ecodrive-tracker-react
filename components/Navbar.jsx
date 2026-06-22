@@ -7,8 +7,11 @@ function Navbar() {
       : 'border-b-2 border-transparent py-2 text-[#E2E8F0] hover:text-[#22C55E]'
 
   return (
-    <nav aria-label="Navegacao principal" className="bg-[#1E293B]">
-      <ul className="mx-auto flex w-full max-w-7xl flex-wrap gap-4 px-4 py-2 text-sm sm:gap-6 sm:px-6 lg:px-8">
+    <nav
+      aria-label="Navegação principal"
+      className="overflow-x-auto bg-[#1E293B] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <ul className="mx-auto flex w-max min-w-full max-w-7xl gap-5 px-4 py-2 text-sm sm:w-full sm:gap-6 sm:px-6 lg:px-8">
         <li>
           <NavLink to="/" end className={linkClass}>
             Home
@@ -21,7 +24,7 @@ function Navbar() {
         </li>
         <li>
           <NavLink to="/veiculos" className={linkClass}>
-            Veiculos
+            Veículos
           </NavLink>
         </li>
         <li>

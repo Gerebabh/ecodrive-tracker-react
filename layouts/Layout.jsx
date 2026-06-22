@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router'
+import BrandLogo from '../components/BrandLogo'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
@@ -8,7 +9,7 @@ function Layout() {
       <header className="bg-[#0F172A] text-[#F8FAFC]">
         <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <Link to="/" className="text-xl font-bold sm:text-2xl">
-            EcoDrive Tracker
+            <BrandLogo />
           </Link>
         </div>
 
