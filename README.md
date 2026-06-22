@@ -15,6 +15,15 @@ quilometragem anual informada.
 O projeto foi desenvolvido como trabalho acadêmico da disciplina de Construção
 de Frontend do IESB.
 
+## Demonstração online
+
+A versão de produção está disponível em:
+
+**[https://ecodrive.solutionforge.com.br](https://ecodrive.solutionforge.com.br)**
+
+O ambiente foi publicado em uma KVM com AlmaLinux 9 e permanece executando em
+contêineres Docker com certificado HTTPS válido e renovação automática.
+
 ## Funcionalidades
 
 - cadastro e edição de veículos;
@@ -117,6 +126,27 @@ proxy reverso.
 
 As instruções completas para DNS, Apache, HTTPS, atualização e backup estão no
 [guia de deploy](docs/DEPLOYMENT.md).
+
+### Relato da implantação
+
+O deploy foi realizado remotamente por SSH. O repositório foi clonado na KVM e
+as imagens de produção foram construídas no próprio servidor com Docker
+Compose.
+
+O ambiente utiliza:
+
+- Apache HTTP Server como proxy reverso nas portas 80 e 443;
+- Nginx em contêiner para servir o build estático do React;
+- JSON Server em uma rede Docker privada, sem porta pública;
+- volume Docker para persistência do `db.json`;
+- frontend exposto somente em `127.0.0.1:8085`;
+- subdomínio dedicado apontado por DNS para a KVM;
+- certificado gratuito da Let's Encrypt gerenciado pelo Certbot;
+- limites de CPU e memória para reduzir o impacto sobre os serviços existentes.
+
+Antes da publicação, foram validados o build de produção, as rotas da SPA, o
+proxy `/api`, a persistência após reinício, a saúde dos contêineres e a
+renovação automática do certificado.
 
 ## Scripts disponíveis
 
