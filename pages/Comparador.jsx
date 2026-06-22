@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { useFuelContext } from '../src/hooks/useFuelContext'
 import { useVehicleContext } from '../src/hooks/useVehicleContext'
 
 function Comparador() {
+  const [veiculoAId, setVeiculoAId] = useState('')
+  const [veiculoBId, setVeiculoBId] = useState('')
+  const [selecaoConfirmada, setSelecaoConfirmada] = useState(false)
   const { error: fuelError, loading: fuelLoading } = useFuelContext()
   const {
     veiculos,
@@ -11,6 +15,23 @@ function Comparador() {
 
   const loading = fuelLoading || vehicleLoading
   const error = fuelError || vehicleError
+  const veiculoA = veiculos.find((veiculo) => veiculo.id === veiculoAId)
+  const veiculoB = veiculos.find((veiculo) => veiculo.id === veiculoBId)
+
+  function handleVehicleAChange(event) {
+    setVeiculoAId(event.target.value)
+    setSelecaoConfirmada(false)
+  }
+
+  function handleVehicleBChange(event) {
+    setVeiculoBId(event.target.value)
+    setSelecaoConfirmada(false)
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    setSelecaoConfirmada(true)
+  }
 
   return (
     <section className="rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
@@ -36,7 +57,7 @@ function Comparador() {
       {!loading && !error && (
         <div>
           <form
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSubmit}
             className="grid gap-4 rounded-lg bg-[#F8FAFC] p-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-end"
           >
             <div>
@@ -48,14 +69,19 @@ function Comparador() {
               </label>
               <select
                 id="veiculo-a"
-                defaultValue=""
+                value={veiculoAId}
+                onChange={handleVehicleAChange}
                 className="w-full rounded-md border border-slate-300 bg-white px-3 py-3 text-[#334155] outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-green-100"
               >
                 <option value="" disabled>
                   Selecione um veículo
                 </option>
                 {veiculos.map((veiculo) => (
-                  <option key={veiculo.id} value={veiculo.id}>
+                  <option
+                    key={veiculo.id}
+                    value={veiculo.id}
+                    disabled={veiculo.id === veiculoBId}
+                  >
                     {veiculo.marca} {veiculo.modelo}
                   </option>
                 ))}
@@ -71,14 +97,19 @@ function Comparador() {
               </label>
               <select
                 id="veiculo-b"
-                defaultValue=""
+                value={veiculoBId}
+                onChange={handleVehicleBChange}
                 className="w-full rounded-md border border-slate-300 bg-white px-3 py-3 text-[#334155] outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-green-100"
               >
                 <option value="" disabled>
                   Selecione um veículo
                 </option>
                 {veiculos.map((veiculo) => (
-                  <option key={veiculo.id} value={veiculo.id}>
+                  <option
+                    key={veiculo.id}
+                    value={veiculo.id}
+                    disabled={veiculo.id === veiculoAId}
+                  >
                     {veiculo.marca} {veiculo.modelo}
                   </option>
                 ))}
@@ -102,8 +133,9 @@ function Comparador() {
             </div>
 
             <button
-              type="button"
-              className="h-12 rounded-md bg-[#22C55E] px-6 font-semibold text-[#0F172A] hover:bg-[#16A34A]"
+              type="submit"
+              disabled={!veiculoAId || !veiculoBId}
+              className="h-12 rounded-md bg-[#22C55E] px-6 font-semibold text-[#0F172A] hover:bg-[#16A34A] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Comparar
             </button>
@@ -117,7 +149,21 @@ function Comparador() {
               Resultado
             </h2>
             <div className="rounded-lg border border-slate-200 bg-[#F8FAFC] p-6 text-center text-[#334155]">
-              Selecione dois veículos para visualizar a comparação.
+              {selecaoConfirmada ? (
+                <p role="status">
+                  Veículos selecionados:{' '}
+                  <strong>
+                    {veiculoA.marca} {veiculoA.modelo}
+                  </strong>{' '}
+                  e{' '}
+                  <strong>
+                    {veiculoB.marca} {veiculoB.modelo}
+                  </strong>
+                  .
+                </p>
+              ) : (
+                'Selecione dois veículos para visualizar a comparação.'
+              )}
             </div>
           </section>
         </div>
